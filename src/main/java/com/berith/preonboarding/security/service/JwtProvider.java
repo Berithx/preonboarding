@@ -28,14 +28,14 @@ import java.util.UUID;
 public class JwtProvider {
 
     private SecretKey key;
-    private final String ID_KEY = "id";
-    private final String NICKNAME_KEY = "nickname";
-    private final String AUTHORITIES_KEY = "auth";
+    public final String ID_KEY = "id";
+    public final String NICKNAME_KEY = "nickname";
+    public final String AUTHORITIES_KEY = "auth";
     public static final String AUTH_SCHEMA = "Bearer ";
     @Value("${jwt.access.time}")
-    private Long ACCESS_TOKEN_TIME;
+    public Long ACCESS_TOKEN_TIME;
     @Value("${jwt.refresh.time}")
-    private Long REFRESH_TOKEN_TIME;
+    public Long REFRESH_TOKEN_TIME;
 
     public JwtProvider(@Value("${jwt.secret.key}") String jwtSecretKey) {
         byte[] bytes = Base64.getDecoder().decode(jwtSecretKey);
@@ -44,7 +44,7 @@ public class JwtProvider {
 
     public String createAccessToken(User user) {
         Date now = new Date();
-        return AUTH_SCHEMA + Jwts.builder()
+        return Jwts.builder()
                 .subject(user.getUsername())
                 .claims()
                 .add(ID_KEY, user.getId())
@@ -96,7 +96,7 @@ public class JwtProvider {
         return new UsernamePasswordAuthenticationToken(new UserPrincipal(user), null, authorities);
     }
 
-    private Claims getClaims(String token) {
+    public Claims getClaims(String token) {
         return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
     }
 

@@ -64,7 +64,7 @@ public class UserService {
         User user = findByUsername(userPrincipal.getUsername());
         log.info("사용자 객체 확보");
 
-        String accessToken = jwtProvider.createAccessToken(user);
+        String accessToken = JwtProvider.AUTH_SCHEMA +  jwtProvider.createAccessToken(user);
         String refreshToken = jwtProvider.createRefreshToken();
         log.info("토큰 생성");
 
