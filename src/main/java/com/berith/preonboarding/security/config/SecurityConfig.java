@@ -51,6 +51,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(request -> request
                 .requestMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/sign").permitAll()
+                .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/v3/**").permitAll()
                 .anyRequest().authenticated()
         );
 
@@ -66,6 +68,8 @@ public class SecurityConfig {
     @Bean
     @ConditionalOnProperty(name = "spring.h2.console.enabled", havingValue = "true")
     public WebSecurityCustomizer configureH2ConsoleEnable() {
-        return web -> web.ignoring().requestMatchers(PathRequest.toH2Console());
+        return web -> web.ignoring()
+                .requestMatchers(PathRequest.toH2Console())
+                .requestMatchers("/swagger-ui/index.html");
     }
 }
