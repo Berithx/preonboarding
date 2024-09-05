@@ -1,0 +1,31 @@
+### 회원가입
+POST localhost:8080/api/users/signup
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "test1234",
+  "nickname": "user"
+}
+
+### 로그인
+POST localhost:8080/api/users/sign
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "test1234"
+}
+
+> {%
+client.global.set("accessToken", response.body.token)
+ %}
+
+### 정상 인증 테스트
+POST localhost:8080/api/others/posts
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+### 비정상 인증 테스트
+POST localhost:8080/api/others/posts
+Content-Type: application/json
